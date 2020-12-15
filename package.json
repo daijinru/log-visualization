@@ -1,0 +1,19 @@
+{
+  "name": "log-visualization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "art-template-loader": "^1.4.3",
+    "webpack": "^5.10.2"
+  },
+  "dependencies": {
+    "art-template": "^4.13.2"
+  }
+}
