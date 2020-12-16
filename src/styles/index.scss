@@ -1,0 +1,26 @@
+@import './log-console.scss';
+@import './log-filter.scss';
+
+#log-visual-comp {
+  background-color: #fff;
+  width: 100%;
+  min-width: 420px;
+  border: 1px solid #dce1e6;
+  border-radius: 3px;
+  padding: 8px;
+  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
+    font-size: 12px;
+    font-family: Roboto, 'Helvetica Neue', Arial, 'sans-serif';
+    color: #464c54;
+  }
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+  ul,
+  li {
+    list-style: none;
+  }
+}

@@ -1,0 +1,30 @@
+<section>
+  <div class="log-console-filter">
+
+    <!-- switch input 组件 -->
+    <label for="LogConsoleTime" class="log-console-form-item">
+      <div class="log-console-form-label">Time</div>
+      <div class="log-console-form-switch">
+        <input type="checkbox" id="LogConsoleTime">
+        <span class="log-console-switch__slider"></span>
+      </div>
+    </label>
+
+    <label for="LogConsoleUniqueLabels" class="log-console-form-item">
+      <div class="log-console-form-label">Unique labels</div>
+      <div class="log-console-form-switch">
+        <input type="checkbox" id="LogConsoleUniqueLabels">
+        <span class="log-console-switch__slider"></span>
+      </div>
+    </label>
+
+    <label for="LogConsoleWrapLines" class="log-console-form-item">
+      <div class="log-console-form-label">Wrap lines</div>
+      <div class="log-console-form-switch">
+        <input type="checkbox" id="LogConsoleWrapLines">
+        <span class="log-console-switch__slider"></span>
+      </div>
+    </label>
+
+  </div>
+</section>

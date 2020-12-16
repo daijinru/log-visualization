@@ -1,5 +1,4 @@
-<div>
-  {{ include './components/LineChart.art' }}
-  <h2>hi</h2>
-  {{ include './components/LogConsole.art' }}
+<div id="log-visual-comp">
+  <% include('./components/LineChart.art') %>
+  <% include('./components/LogConsole.art', $data.logs) %>
 </div>

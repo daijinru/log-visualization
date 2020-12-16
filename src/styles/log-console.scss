@@ -1,0 +1,112 @@
+// 所有子组件前缀是 #log-visual-comp 命名避免样式污染
+#log-visual-comp {
+  .log-console {
+    .log-console-scroll {
+      width: 100%;
+      overflow-y: auto;
+      padding-bottom: 16px;
+    }
+
+    .log-console-title {
+    }
+
+    .log-console-list {
+      min-width: 960px;
+    }
+
+    .log-console-item-details {
+      border: 1px solid rgb(221, 228, 237);
+      padding: 0px 8px 8px;
+      border-radius: 3px;
+      margin: 20px 8px 20px 16px;
+      cursor: default;
+      display: none;
+      &.collapsed {
+        display: block;
+      }
+    }
+
+    .log-console-item-details-title {
+      font-weight: 600;
+      padding: 8px 0px 4px;
+    }
+
+    .log-console-item {
+      .log-console-item-msg {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        cursor: pointer;
+      }
+      .log-console-item-msg-arrow {
+        display: none;
+      }
+      .log-console-item-msg-arrow.collapsed {
+        display: block;
+      }
+      .log-console-item-msg-text {
+        line-height: 19px;
+        white-space: nowrap;
+      }
+      .log-console-btn {
+        width: 16px;
+        height: 16px;
+        background: transparent;
+        border: none;
+        padding: 0px;
+        margin: 6px;
+        outline: none;
+        box-shadow: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+
+        &:hover::before{
+          background-color: rgb(233, 237, 242);
+          border: none;
+          box-shadow: none;
+          opacity: 1;
+          transform: scale(0.8);
+        }
+
+        &:before {
+          content: "";
+          display: block;
+          opacity: 1;
+          position: absolute;
+          transition-duration: 0.2s;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: -1;
+          inset: -8px;
+          background: none;
+          border-radius: 50%;
+          box-sizing: border-box;
+          transform: scale(0);
+          transition-property: transform, opacity;
+        }
+      }
+    }
+    .log-console-item-details-list {
+      >li {
+        padding: 4px 0;
+        display: flex;
+        align-items: center;
+        &:hover {
+          background-color: rgb(221, 228, 237);
+        }
+      }
+      .log-console-item-details-name,
+      .log-console-item-details-value {
+        width: 240px;
+        min-width: 200px;
+        padding: 0 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}

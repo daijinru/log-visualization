@@ -1,0 +1,71 @@
+// log-filter 是 log-console 的子组件
+// 样式需要位于 .log-console 命名内
+#log-visual-comp {
+  .log-console {
+    .log-console-filter {
+      padding: 8px 16px;
+      border-radius: 3px;
+      margin: 16px 0 16px;
+      border: 1px solid #dce1e6;
+
+      display: flex;
+      flex-direction: row;
+
+      .log-console-form-item {
+        cursor: pointer;
+        margin-right: 16px;
+
+        text-align: left;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .log-console-form-label {
+          font-weight: 500;
+          height: 32px;
+          line-height: 32px;
+          margin-right: 12px;
+          white-space: nowrap;
+      }
+
+      .log-console-form-switch {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        input[type="checkbox"] {
+          opacity: 0;
+          width: 0;
+          height: 0;
+          margin: 0;
+        }
+        input[type="checkbox"]:checked+.log-console-switch__slider {
+          background-color: #1f60c4;
+        }
+        input[type="checkbox"]:checked+.log-console-switch__slider:before {
+          transform: translateX(16px);
+        }
+        .log-console-switch__slider {
+          background-color: #dde4ed;
+          border-radius: 8px;
+          height: 16px;
+          width: 32px;
+          display: block;
+          position: relative;
+          &:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 2px;
+            top: 2px;
+            background: #f7f8fa;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 0 3px #41444b;
+          }
+        }
+      }
+    }
+  }
+}

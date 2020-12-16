@@ -1,15 +1,50 @@
 import IndexArt from './index.art';
+import './styles/index.scss';
 
 class App {
   constructor (id, options = {}) {
-    const app = document.getElementById(id);
-    if (!app) {
+    this.app = document.getElementById(id);
+    if (!this.app) {
       throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     }
+  }
 
-    // 初始化
-    const elementString = IndexArt();
-    app.innerHTML = elementString;
+  setState(data) {
+    return new Promise((resolve, reject) => {
+      try {
+        this.render(this.createTemplateString(data));
+        this.setEvents();
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    })
+  }
+
+  setEvents () {
+    document.getElementById('log-visual-app').addEventListener('click', e => {
+      console.info(e);
+      if (e.target.className === 'log-console-item-msg-text') {
+        const nextElementSibling = e.target.parentElement.nextElementSibling;
+        if (nextElementSibling && nextElementSibling.classList.contains('collapsed')) {
+          nextElementSibling.classList.remove('collapsed');
+        } else {
+          e.target.parentElement.nextElementSibling.classList.add('collapsed');
+        }
+      }
+    })
+  }
+
+  listen (formSettings, callback) {
+
+  }
+
+  createTemplateString (data) {
+    return IndexArt(data);
+  }
+
+  render (templateString) {
+    this.app.innerHTML = templateString;
   }
 }
 
