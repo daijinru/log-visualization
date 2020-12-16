@@ -1,0 +1,5 @@
+<div>
+  {{ include './components/LineChart.art' }}
+  <h2>hi</h2>
+  {{ include './components/LogConsole.art' }}
+</div>

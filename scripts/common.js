@@ -1,6 +1,14 @@
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const path = require('path');
+
+const resolvePath = (filePath) => {
+  return path.resolve(__dirname, filePath);
+}
 
 module.exports = {
+  output: {
+    filename: 'bundle.js',
+    path: resolvePath('../dist'),
+  },
   module: {
     rules: [
       {
@@ -21,25 +29,20 @@ module.exports = {
         }
       },
       {
-        test: /\.vue$/,
+        test: /\.art$/,
         use: {
-          loader: 'vue-loader'
+          loader: 'art-template-loader'
         },
       },
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_componentss)/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [require('@babel/preset-env')],
-            plugins: [require('@babel/plugin-proposal-object-rest-spread')]
+            presets: ['@babel/preset-env']
           }
         }
       },
     ]
   },
-  plugins: [
-    new VueLoaderPlugin(),
-  ]
 }

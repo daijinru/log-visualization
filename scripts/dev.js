@@ -10,7 +10,6 @@ const resolvePath = (filePath) => {
   return path.resolve(__dirname, filePath);
 }
 
-const output = resolvePath('../dist');
 const devServerConfig = {
   port: 8001,
   host: 'localhost',
@@ -19,10 +18,6 @@ const serverUrl = devServerConfig.host + ':' + devServerConfig.port;
 
 const devConfig = merge(commonConfig, {
   entry: resolvePath('../index.js'),
-  output: {
-    filename: 'bundle.js',
-    path: output,
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template: resolvePath('../index.html')
@@ -48,13 +43,9 @@ compiler.hooks.done.tap('compiled', stats => {
     logger.done(`👏 再次编译成功，浏览地址：${serverUrl}`);
   }
 });
-compiler.hooks.failed.tap('compile failed', msg => {
-  logger.error(msg);
-  process.exit(1);
-});
 
 new WebpackDevServer(compiler, {
-  contentBase: output,
+  contentBase: resolvePath('../dist'),
   open: true,
   hot: true,
 }).listen(devServerConfig.port, devServerConfig.host, err => {

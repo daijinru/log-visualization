@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import IndexCtor from './index.vue';
+import IndexArt from './index.art';
 
 class App {
   constructor (id, options = {}) {
@@ -9,10 +8,8 @@ class App {
     }
 
     // 初始化
-    this.$instance = new (Vue.extend(IndexCtor))({
-      el: document.createElement('div')
-    });
-    app.appendChild(this.$instance.$el);
+    const elementString = IndexArt();
+    app.innerHTML = elementString;
   }
 }
 

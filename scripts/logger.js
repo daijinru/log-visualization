@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const stripAnsi = require('strip-ansi');
 
 const format = (label, msg) => {
   return msg.split('\n').map((line, i) => {
