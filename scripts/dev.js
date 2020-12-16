@@ -1,14 +1,10 @@
-const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackDevServer = require('webpack-dev-server');
 const Webpack = require('webpack');
 const commonConfig = require('./common');
 const logger = require('./logger');
-
-const resolvePath = (filePath) => {
-  return path.resolve(__dirname, filePath);
-}
+const util = require('./util');
 
 const devServerConfig = {
   port: 8001,
@@ -17,10 +13,10 @@ const devServerConfig = {
 const serverUrl = devServerConfig.host + ':' + devServerConfig.port;
 
 const devConfig = merge(commonConfig, {
-  entry: resolvePath('../index.js'),
+  entry: util.resolvePath('../index.js'),
   plugins: [
     new HtmlWebpackPlugin({
-      template: resolvePath('../index.html')
+      template: util.resolvePath('../index.html')
     })
   ],
   mode: 'development',
@@ -45,7 +41,7 @@ compiler.hooks.done.tap('compiled', stats => {
 });
 
 new WebpackDevServer(compiler, {
-  contentBase: resolvePath('../dist'),
+  contentBase: util.resolvePath('../dist'),
   open: true,
   hot: true,
 }).listen(devServerConfig.port, devServerConfig.host, err => {

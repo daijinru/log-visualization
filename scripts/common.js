@@ -1,13 +1,9 @@
-const path = require('path');
-
-const resolvePath = (filePath) => {
-  return path.resolve(__dirname, filePath);
-}
+const util = require('./util');
 
 module.exports = {
   output: {
     filename: 'bundle.js',
-    path: resolvePath('../dist'),
+    path: util.resolvePath('../dist'),
   },
   module: {
     rules: [
