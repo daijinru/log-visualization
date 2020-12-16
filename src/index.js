@@ -1,5 +1,5 @@
-const template = require('./templates/index.art');
-const html = render();
+import Vue from 'vue';
+import IndexCtor from './index.vue';
 
 class App {
   constructor (id, options = {}) {
@@ -7,8 +7,12 @@ class App {
     if (!app) {
       throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     }
-    const html = require('./templates/index.art')();
-    app.innnerHTML = html;
+
+    // 初始化
+    this.$instance = new (Vue.extend(IndexCtor))({
+      el: document.createElement('div')
+    });
+    app.appendChild(this.$instance.$el);
   }
 }
 

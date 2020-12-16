@@ -6,7 +6,7 @@
   "main": "dist/bundle.js",
   "scripts": {
     "start": "npm run dev",
-    "dev": "webpack --config scripts/dev.js",
+    "dev": "node scripts/dev.js",
     "build": "webpack --config scripts/build.js"
   },
   "keywords": [],
@@ -15,7 +15,6 @@
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.10",
-    "art-template-loader": "^1.4.3",
     "babel-loader": "^8.2.2",
     "chalk": "^4.1.0",
     "css-loader": "^5.0.1",
@@ -23,14 +22,16 @@
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
+    "vue": "^2.6.12",
+    "vue-loader": "^15.9.5",
+    "vue-template-compiler": "^2.6.12",
     "webpack": "^5.10.2",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.7.0"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.12.1",
-    "art-template": "^4.13.2"
+    "@babel/polyfill": "^7.12.1"
   },
   "files": [
     "dist"

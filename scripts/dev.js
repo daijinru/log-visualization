@@ -35,18 +35,17 @@ const devConfig = merge(commonConfig, {
 let isFirstCompile = true;
 const compiler = Webpack(devConfig);
 compiler.hooks.beforeCompile.tap('before compile', () => {
-  logger.info('正在编译');
+  logger.info('正在编译...');
 })
 compiler.hooks.done.tap('compiled', stats => {
   if (stats.hasErrors()) {
     return;
   }
-  logger.info();
   if (isFirstCompile) {
-    logger.done(`👏 编译成功，使用浏览器打开 ${serverUrl}`);
+    logger.done(`👏 编译成功，浏览地址：${serverUrl}`);
     isFirstCompile = false;
   } else {
-    logger.done(`👏 再次编译成功，使用浏览器打开 ${serverUrl}`);
+    logger.done(`👏 再次编译成功，浏览地址：${serverUrl}`);
   }
 });
 compiler.hooks.failed.tap('compile failed', msg => {
