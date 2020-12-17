@@ -31,6 +31,15 @@
 
     .log-console-item {
       position: relative;
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 1px;
+        bottom: 1px;
+        width: 3px;
+        background-color: rgb(221, 228, 237);
+      }
       .log-console-item-msg {
         display: flex;
         flex-flow: row nowrap;
