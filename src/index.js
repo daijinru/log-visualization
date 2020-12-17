@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import IndexArt from './index.art';
 import LogContextArt from './components/LogContextPop.art';
+import LogConsoleListArt from './components/LogConsoleList.art';
 import './styles/index.scss';
 import { findParentElement } from './utils/index';
 
@@ -15,11 +16,12 @@ const defaults = {
 class App {
   constructor (id, options = {}) {
     this.app = document.getElementById(id);
-    this.logs = [];
     if (!this.app) {
       throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     }
+    this.logs = [];
     this.options = { ...defaults, ...options };
+    this.app.innerHTML = IndexArt();
     window.LogVisualComp = this;
   }
 
@@ -27,7 +29,8 @@ class App {
     return new Promise((resolve, reject) => {
       try {
         this.logs = [].concat(data.logs);
-        this.render(this.createTemplateString(data));
+        const logConsoleListElement = document.getElementById('logConsoleList');
+        logConsoleListElement.innerHTML = LogConsoleListArt(this.logs);
         this.setEvents();
         this.setChart();
         resolve();
@@ -35,6 +38,21 @@ class App {
         reject(err);
       }
     })
+  }
+
+  formatLogs (options = {}) {
+    const defaults = {
+      useTimestamp: true
+    };
+    options = { ...defaults, ...options };
+    return this.logs.map(log => {
+
+    })
+    if (options.useTimeStamp) {
+      this.logs.forEach(log => {
+        log[1] = log[0] + log[1];
+      })
+    }
   }
 
   setChart () {
@@ -187,14 +205,6 @@ class App {
 
   listen (formSettings, callback) {
 
-  }
-
-  createTemplateString (data) {
-    return IndexArt(data);
-  }
-
-  render (templateString) {
-    this.app.innerHTML = templateString;
   }
 }
 

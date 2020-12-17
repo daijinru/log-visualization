@@ -1,49 +1,9 @@
 import App from './src/index.js';
+import mockData from './mock.data';
 
 const app = new App('log-visual-app');
-
+const dataSource = mockData.response.data;
 app.setState({
-  name: 'art template',
-  logs: [
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-    { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-    { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' },
-  ]
+  logs: dataSource.result[0].values,
+  stream: dataSource.result[0].stream,
 })

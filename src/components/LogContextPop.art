@@ -5,7 +5,7 @@
       {{ each $data.prevs item key }}
       <li class="log-context-item" data-key="{{key}}">
         <div class="log-context-item-msg">
-          <p class="log-context-item-msg-text">{{item.msg}}</p>
+          <p class="log-context-item-msg-text">{{item[1]}}</p>
         </div>
       </li>
       {{ /each }}
@@ -19,7 +19,7 @@
       {{ each $data.nexts item key }}
       <li class="log-context-item" data-key="{{key}}">
         <div class="log-context-item-msg">
-          <p class="log-context-item-msg-text">{{item.msg}}</p>
+          <p class="log-context-item-msg-text">{{item[1]}}</p>
         </div>
       </li>
       {{ /each }}
