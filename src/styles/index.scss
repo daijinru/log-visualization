@@ -1,5 +1,6 @@
 @import './log-console.scss';
 @import './log-filter.scss';
+@import './log-context.scss';
 
 #log-visual-comp {
   background-color: #fff;
@@ -22,5 +23,8 @@
   ul,
   li {
     list-style: none;
+  }
+  p {
+    margin: 0;
   }
 }

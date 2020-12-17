@@ -7,11 +7,9 @@
       padding-bottom: 16px;
     }
 
-    .log-console-title {
-    }
-
     .log-console-list {
       min-width: 960px;
+      min-height: 250px;
     }
 
     .log-console-item-details {
@@ -32,11 +30,15 @@
     }
 
     .log-console-item {
+      position: relative;
       .log-console-item-msg {
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
         cursor: pointer;
+        &:hover .log-console-item-msg-context {
+          visibility: visible;
+        }
       }
       .log-console-item-msg-arrow {
         display: none;
@@ -47,6 +49,14 @@
       .log-console-item-msg-text {
         line-height: 19px;
         white-space: nowrap;
+      }
+      .log-console-item-msg-context {
+        visibility: hidden;
+        margin-left: 10px;
+        text-decoration: underline;
+        &:hover {
+          color: rgb(255, 133, 27);
+        }
       }
       .log-console-btn {
         width: 16px;

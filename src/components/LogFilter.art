@@ -3,7 +3,7 @@
 
     <!-- switch input 组件 -->
     <label for="LogConsoleTime" class="log-console-form-item">
-      <div class="log-console-form-label">Time</div>
+      <div class="log-console-form-label">时间戳</div>
       <div class="log-console-form-switch">
         <input type="checkbox" id="LogConsoleTime">
         <span class="log-console-switch__slider"></span>
@@ -11,7 +11,7 @@
     </label>
 
     <label for="LogConsoleUniqueLabels" class="log-console-form-item">
-      <div class="log-console-form-label">Unique labels</div>
+      <div class="log-console-form-label">唯一标识</div>
       <div class="log-console-form-switch">
         <input type="checkbox" id="LogConsoleUniqueLabels">
         <span class="log-console-switch__slider"></span>
@@ -19,7 +19,7 @@
     </label>
 
     <label for="LogConsoleWrapLines" class="log-console-form-item">
-      <div class="log-console-form-label">Wrap lines</div>
+      <div class="log-console-form-label">换行</div>
       <div class="log-console-form-switch">
         <input type="checkbox" id="LogConsoleWrapLines">
         <span class="log-console-switch__slider"></span>

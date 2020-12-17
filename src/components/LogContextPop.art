@@ -1,0 +1,22 @@
+<div class="log-context-scroll log-context-prevs">
+  <ul class="log-context-list">
+    {{ each $data.prevs item key }}
+    <li class="log-context-item" data-key="{{key}}">
+      <div class="log-context-item-msg">
+        <p class="log-context-item-msg-text">{{item.msg}}</p>
+      </div>
+    </li>
+    {{ /each }}
+  </ul>
+</div>
+<div class="log-context-scroll log-context-nexts">
+  <ul class="log-context-list">
+    {{ each $data.nexts item key }}
+    <li class="log-context-item" data-key="{{key}}">
+      <div class="log-context-item-msg">
+        <p class="log-context-item-msg-text">{{item.msg}}</p>
+      </div>
+    </li>
+    {{ /each }}
+  </ul>
+</div>
