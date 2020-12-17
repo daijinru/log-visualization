@@ -17,6 +17,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.12.10",
     "art-template-loader": "^1.4.3",
+    "art-template": "^4.13.2",
     "babel-loader": "^8.2.2",
     "chalk": "^4.1.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -34,7 +35,8 @@
     "webpack-merge": "^5.7.0"
   },
   "dependencies": {
-    "art-template": "^4.13.2"
+    "dayjs": "^1.9.7",
+    "echarts": "^5.0.0"
   },
   "files": [
     "dist"

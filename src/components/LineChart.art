@@ -1,1 +1,3 @@
-<section>折线图</section>
+<section>
+  <div id="logLineChart"></div>
+</section>
