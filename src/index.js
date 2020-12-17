@@ -8,6 +8,10 @@ const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/bar');
 require('echarts/lib/component/tooltip');
 require('echarts/lib/component/dataZoom');
+
+const defaults = {
+  chart: false,
+}
 class App {
   constructor (id, options = {}) {
     this.app = document.getElementById(id);
@@ -15,6 +19,7 @@ class App {
     if (!this.app) {
       throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     }
+    this.options = { ...defaults, ...options };
     window.LogVisualComp = this;
   }
 
@@ -33,8 +38,9 @@ class App {
   }
 
   setChart () {
+    if (!this.options.chart) return;
     const chart = echarts.init(document.getElementById('logLineChart'));
-
+    chart.style.display = 'block';
     // 模拟时间库
     let base = new Date('2020-12-17').getTime();
     const date = [];
