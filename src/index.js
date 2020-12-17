@@ -11,14 +11,17 @@ require('echarts/lib/component/dataZoom');
 class App {
   constructor (id, options = {}) {
     this.app = document.getElementById(id);
+    this.logs = [];
     if (!this.app) {
       throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     }
+    window.LogVisualComp = this;
   }
 
   setState(data) {
     return new Promise((resolve, reject) => {
       try {
+        this.logs = [].concat(data.logs);
         this.render(this.createTemplateString(data));
         this.setEvents();
         this.setChart();
@@ -30,7 +33,6 @@ class App {
   }
 
   setChart () {
-    console.info(document.getElementById('logLineChart'))
     const chart = echarts.init(document.getElementById('logLineChart'));
 
     // 模拟时间库
@@ -140,15 +142,23 @@ class App {
         });
         const parentElement = findParentElement(e.target, 'log-console-item');
         if (parentElement) {
+          // 从 key 开始往前和往后各获取 10 条日志
+          const key = Number(e.target.getAttribute('data-key'));
+          const prevs = [];
+          const nexts = [];
+          for (let i = 1; i <= 10; i++) {
+            const nextLog = this.logs[key + i];
+            const prevLog = this.logs[key - (11 - i)];
+            if (nextLog) {
+              nexts.push(nextLog);
+            }
+            if (prevLog) {
+              prevs.push(prevLog)
+            }
+          }
           const LogContextTemplateString = LogContextArt({
-            prevs: [
-              { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-              { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' }
-            ],
-            nexts: [
-              { msg: '2020-12-16 16:18:24.645 [INFO ] [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer][206] - Tomcat started on port(s): 8081 (http) with context path ' },
-              { msg: '2020-12-16 16:18:22.783 [INFO ] [main] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter][433] - Registering beans for JMX exposure on startup' }
-            ]
+            prevs,
+            nexts,
           });
           const DIV = document.createElement('div');
           DIV.classList.add('log-console-msg-context');
