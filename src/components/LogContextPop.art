@@ -1,5 +1,5 @@
 <div class="log-context-prevs">
-  <div class="log-context-bar"></div>
+  <div class="log-context-bar">发现 {{$data.prevsCount}} 个日志</div>
   <div class="log-context-scroll">
     <ul class="log-context-list">
       {{ each $data.prevs item key }}
@@ -25,5 +25,5 @@
       {{ /each }}
     </ul>
   </div>
-  <div class="log-context-bar"></div>
+  <div class="log-context-bar">发现 {{ $data.nextsCount }} 个日志。</div>
 </div>

@@ -159,6 +159,8 @@ class App {
           const LogContextTemplateString = LogContextArt({
             prevs,
             nexts,
+            prevsCount: prevs.length,
+            nextsCount: nexts.length,
           });
           const DIV = document.createElement('div');
           DIV.classList.add('log-console-msg-context');
