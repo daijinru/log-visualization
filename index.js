@@ -3,6 +3,7 @@ import mockData from './mock.data';
 
 const app = new App('log-visual-app', {
   useTimestamp: true,
+  search: '2052475',
 });
 const dataSource = mockData.response.data;
 app.setState({
@@ -12,4 +13,4 @@ app.setState({
 app.onFilter(function (pubs) {
   console.info(pubs);
 });
-app.search('SqlSession');
+// app.search('SqlSession');

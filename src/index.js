@@ -62,10 +62,7 @@ class App {
   }
 
   search (str) {
-    if (str) {
-      // 如果在实例化以后再次执行搜索则清空配置中的搜索字符
-      this.options.search = '';
-    }
+    this.options.search = str;
     this.renderState({ search: str });
   }
 
@@ -92,16 +89,17 @@ class App {
   }
 
   renderState (options = {}) {
+    this.options = { ...this.options, ...options };
     const logConsoleListElement = document.getElementById('logConsoleList');
     if (!logConsoleListElement) throw new ReferenceError('日志挂载的节点不存在！');
     logConsoleListElement.innerHTML = LogConsoleListArt({
-      logs: this.formatLogs(options),
+      logs: this.formatLogs(),
       stream: this.stream,
     });
   }
 
-  formatLogs (options = {}) {
-    options = { ...this.options, ...options };
+  formatLogs () {
+    const options = this.options;
     return this.logs.map(log => {
       const item = {
         content: [],
@@ -204,7 +202,6 @@ class App {
       }
 
       if (e.target.getAttribute('data-action') === 'filter') {
-        console.info(e.target);
         const parentElement = findParentElement(e.target, 'log-console-btn');
         const filterDesc = parentElement.getAttribute('data-desc');
         if (filterDesc) {
@@ -220,6 +217,24 @@ class App {
               value: pubs[2],
             });
           })
+        }
+      }
+
+      if (e.target.getAttribute('data-input')) {
+        const buildInAction = e.target.getAttribute('data-input');
+        const actionStatus = e.target.checked;
+        switch (buildInAction) {
+          case 'timestamp':
+            this.renderState({ useTimestamp: actionStatus });
+            break;
+          case 'unique-label':
+            this.renderState({ useUniqueLabel: actionStatus });
+            break;
+          case 'wrap-line':
+            this.renderState({ useWrapLines: actionStatus });
+            break;
+          default:
+            return;
         }
       }
     })

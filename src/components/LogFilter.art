@@ -8,6 +8,7 @@
         <input
           type="checkbox"
           id="LogConsoleTime"
+          data-input="timestamp"
           {{if $data.useTimestamp}} checked {{/if}}
         >
         <span class="log-console-switch__slider"></span>
@@ -20,6 +21,7 @@
         <input
           type="checkbox"
           id="LogConsoleUniqueLabels"
+          data-input="unique-label"
           {{if $data.useUniqueLabel}} checked {{/if}}
         >
         <span class="log-console-switch__slider"></span>
@@ -32,6 +34,7 @@
         <input
           type="checkbox"
           id="LogConsoleWrapLines"
+          data-input="wrap-lines"
           {{if $data.useWrapLines}} checked {{/if}}
         >
         <span class="log-console-switch__slider"></span>
