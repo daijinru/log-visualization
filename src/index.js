@@ -17,6 +17,7 @@ class App {
     this.app = document.getElementById(id);
     if (!this.app) throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     this.logs = [];
+    this.stream = [];
     this.options = { ...defaults, ...options };
     // 初始化阶段先渲染日志界面
     this.app.innerHTML = IndexArt({
@@ -27,7 +28,13 @@ class App {
 
   // 异步请求取回的新日志数据调用该方法
   setState(data) {
+    if (!Array.isArray(data.logs)) {
+      throw new TypeError('日志 logs 必须是二维数组类型：[["时间戳", "日志文本"]]');
+    }
     this.logs = [].concat(data.logs);
+    if (data.stream) {
+      this.stream = Object.entries(data.stream).map(([k, v]) => [k, v]);
+    }
     this.renderState();
     this.setEvents();
     // 默认关闭柱状图
@@ -36,24 +43,31 @@ class App {
     }
   }
 
-  renderState () {
+  renderState (options = {}) {
     const logConsoleListElement = document.getElementById('logConsoleList');
     if (!logConsoleListElement) throw new ReferenceError('日志挂载的节点不存在！');
-    logConsoleListElement.innerHTML = LogConsoleListArt(
-      this.formatLogs()
-    );
+    logConsoleListElement.innerHTML = LogConsoleListArt({
+      logs: this.formatLogs(options),
+      stream: this.stream,
+    });
   }
 
   formatLogs (options = {}) {
     options = { ...this.options, ...options };
     return this.logs.map(log => {
+      const item = {
+        content: [],
+        parsedField: []
+      };
+      item.content[0] = log[0];
+      item.content[1] = log[1];
+      const tsFormatString = dayjs(log[0]).format('YYYY-MM-DD hh:mm:ss.ms');
       if (options.useTimestamp) {
-        if (log[0] && typeof log[0] === 'string') {
-          const tsString = dayjs(log[0]).format('YYYY-MM-DD hh:mm:ss.ms')
-          log[1] = tsString + ' ' + log[1]
-        }
+        item.content[1] = tsFormatString + ' ' + log[1];
       }
-      return log
+      item.parsedField[0] = ['ts', tsFormatString];
+      item.parsedField[1] = ['tsNs', log[0]];
+      return item;
     })
   }
 
