@@ -35,7 +35,9 @@
     "webpack-merge": "^5.7.0"
   },
   "dependencies": {
-    "dayjs": "^1.9.7",
+    "dayjs": "^1.9.7"
+  },
+  "peerDependencies": {
     "echarts": "^5.0.0"
   },
   "files": [
