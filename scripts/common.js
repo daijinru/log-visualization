@@ -27,7 +27,10 @@ module.exports = {
       {
         test: /\.art$/,
         use: {
-          loader: 'art-template-loader'
+          loader: 'art-template-loader',
+          options: {
+            escape: false,
+          }
         },
       },
       {

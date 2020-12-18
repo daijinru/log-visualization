@@ -12,3 +12,4 @@ app.setState({
 app.onFilter(function (pubs) {
   console.info(pubs);
 });
+app.search('SqlSession');

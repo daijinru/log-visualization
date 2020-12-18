@@ -7,11 +7,25 @@ import { findParentElement } from './utils/index';
 import setChart from './libs/chart';
 import pkg from '../package.json';
 
+// @TODO 修改 Art 模版以支持高亮功能，暂时使用 loader options 关闭 escape 但是有 XSS 风险
+// 匹配 mark 标签，并返回原始内容而不作解析
+// console.log(artTemplate.defaults);
+// LogConsoleListArt.defaults.rules.push({
+//   test: /^<mark>.*<\/mark>$/,
+//   use: function (match, code) {
+//     return {
+//       code,
+//       output: 'raw'
+//     };
+//   },
+// });
+
 const defaults = {
   useChart: false,
   useTimestamp: false,
   useUniqueLabel: false,
   useWrapLines: false,
+  search: '',
 }
 class App {
   constructor (id, options = {}) {
@@ -45,6 +59,14 @@ class App {
     if (this.options.useChart) {
       setChart(this.logs);
     }
+  }
+
+  search (str) {
+    if (str) {
+      // 如果在实例化以后再次执行搜索则清空配置中的搜索字符
+      this.options.search = '';
+    }
+    this.renderState({ search: str });
   }
 
   // 注册监听 filter 按钮的事件
@@ -93,6 +115,13 @@ class App {
       }
       item.parsedField[0] = ['ts', tsFormatString];
       item.parsedField[1] = ['tsNs', log[0]];
+
+      // 精准匹配搜索字符并高亮
+      if (options.search) {
+        if (item.content[1].indexOf(options.search) > -1) {
+          item.content[1] = item.content[1].replaceAll(options.search, `<mark>${options.search}</mark>`);
+        }
+      }
       return item;
     })
   }
