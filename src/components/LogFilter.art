@@ -15,7 +15,7 @@
       </div>
     </label>
 
-    <label for="LogConsoleUniqueLabels" class="log-console-form-item">
+    <label for="LogConsoleUniqueLabels" class="log-console-form-item" style="display: none">
       <div class="log-console-form-label">唯一标识</div>
       <div class="log-console-form-switch">
         <input
@@ -28,7 +28,7 @@
       </div>
     </label>
 
-    <label for="LogConsoleWrapLines" class="log-console-form-item">
+    <label for="LogConsoleWrapLines" class="log-console-form-item" style="display: none">
       <div class="log-console-form-label">换行</div>
       <div class="log-console-form-switch">
         <input

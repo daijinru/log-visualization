@@ -230,12 +230,19 @@ class App {
           case 'unique-label':
             this.renderState({ useUniqueLabel: actionStatus });
             break;
-          case 'wrap-line':
+          case 'wrap-lines':
+            // 换行仅涉及 className 修改因此性能较高
             this.renderState({ useWrapLines: actionStatus });
+            Array.from(document.getElementsByClassName('log-console-item-msg-text')).forEach(item => {
+              if (actionStatus) {
+                item.classList.add('text-wrap');
+              } else {
+                item.classList.remove('text-wrap');
+              }
+            })
             break;
-          default:
-            return;
         }
+        console.info(buildInAction, actionStatus);
       }
     })
   }

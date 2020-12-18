@@ -58,6 +58,9 @@
       .log-console-item-msg-text {
         line-height: 19px;
         white-space: nowrap;
+        &.text-wrap {
+          white-space: inherit;
+        }
       }
       .log-console-item-msg-context {
         visibility: hidden;
