@@ -1,5 +1,5 @@
 <section class="log-console">
-  <% include('./LogFilter.art') %>
+  <% include('./LogFilter.art', $data) %>
   <section class="log-console-scroll" id="logConsoleList">
   </section>
 </section>

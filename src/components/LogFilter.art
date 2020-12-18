@@ -5,7 +5,11 @@
     <label for="LogConsoleTime" class="log-console-form-item">
       <div class="log-console-form-label">时间戳</div>
       <div class="log-console-form-switch">
-        <input type="checkbox" id="LogConsoleTime">
+        <input
+          type="checkbox"
+          id="LogConsoleTime"
+          {{if $data.useTimestamp}} checked {{/if}}
+        >
         <span class="log-console-switch__slider"></span>
       </div>
     </label>
@@ -13,7 +17,11 @@
     <label for="LogConsoleUniqueLabels" class="log-console-form-item">
       <div class="log-console-form-label">唯一标识</div>
       <div class="log-console-form-switch">
-        <input type="checkbox" id="LogConsoleUniqueLabels">
+        <input
+          type="checkbox"
+          id="LogConsoleUniqueLabels"
+          {{if $data.useUniqueLabel}} checked {{/if}}
+        >
         <span class="log-console-switch__slider"></span>
       </div>
     </label>
@@ -21,7 +29,11 @@
     <label for="LogConsoleWrapLines" class="log-console-form-item">
       <div class="log-console-form-label">换行</div>
       <div class="log-console-form-switch">
-        <input type="checkbox" id="LogConsoleWrapLines">
+        <input
+          type="checkbox"
+          id="LogConsoleWrapLines"
+          {{if $data.useWrapLines}} checked {{/if}}
+        >
         <span class="log-console-switch__slider"></span>
       </div>
     </label>

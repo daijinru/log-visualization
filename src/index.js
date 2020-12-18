@@ -4,123 +4,56 @@ import LogContextArt from './components/LogContextPop.art';
 import LogConsoleListArt from './components/LogConsoleList.art';
 import './styles/index.scss';
 import { findParentElement } from './utils/index';
-
-const echarts = require('echarts/lib/echarts');
-require('echarts/lib/chart/bar');
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/dataZoom');
+import setChart from './libs/chart';
 
 const defaults = {
-  chart: false,
+  useChart: false,
+  useTimestamp: false,
+  useUniqueLabel: false,
+  useWrapLines: false,
 }
 class App {
   constructor (id, options = {}) {
     this.app = document.getElementById(id);
-    if (!this.app) {
-      throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
-    }
+    if (!this.app) throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     this.logs = [];
     this.options = { ...defaults, ...options };
-    this.app.innerHTML = IndexArt();
+    // 初始化阶段先渲染日志界面
+    this.app.innerHTML = IndexArt({
+      options: this.options
+    });
     window.LogVisualComp = this;
   }
 
+  // 异步请求取回的新日志数据调用该方法
   setState(data) {
-    return new Promise((resolve, reject) => {
-      try {
-        this.logs = [].concat(data.logs);
-        const logConsoleListElement = document.getElementById('logConsoleList');
-        logConsoleListElement.innerHTML = LogConsoleListArt(this.logs);
-        this.setEvents();
-        this.setChart();
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
-    })
+    this.logs = [].concat(data.logs);
+    this.renderState();
+    this.setEvents();
+    // 默认关闭柱状图
+    if (this.options.useChart) {
+      setChart(this.logs);
+    }
+  }
+
+  renderState () {
+    const logConsoleListElement = document.getElementById('logConsoleList');
+    if (!logConsoleListElement) throw new ReferenceError('日志挂载的节点不存在！');
+    logConsoleListElement.innerHTML = LogConsoleListArt(
+      this.formatLogs()
+    );
   }
 
   formatLogs (options = {}) {
-    const defaults = {
-      useTimestamp: true
-    };
-    options = { ...defaults, ...options };
+    options = { ...this.options, ...options };
     return this.logs.map(log => {
-
-    })
-    if (options.useTimeStamp) {
-      this.logs.forEach(log => {
-        log[1] = log[0] + log[1];
-      })
-    }
-  }
-
-  setChart () {
-    if (!this.options.chart) return;
-    const chart = echarts.init(document.getElementById('logLineChart'));
-    chart.style.display = 'block';
-    // 模拟时间库
-    let base = new Date('2020-12-17').getTime();
-    const date = [];
-    const data = [];
-
-    for (var i = 1; i < 1000; i++) {
-        const now = new Date(base += (1000));
-        date.push(dayjs(now).format('HH:mm:ss'));
-        data.push(Math.floor(Math.random() * 10000));
-    }
-    chart.setOption({
-      grid: {
-        top: 20,
-        left: 50,
-        bottom: 40,
-        right: 0,
-      },
-      tooltip: {
-        trigger: 'axis',
-        position: function (pt) {
-            return [pt[0], '10%'];
+      if (options.useTimestamp) {
+        if (log[0] && typeof log[0] === 'string') {
+          const tsString = dayjs(log[0]).format('YYYY-MM-DD hh:mm:ss.ms')
+          log[1] = tsString + ' ' + log[1]
         }
-      },
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: date
-      },
-      yAxis: {
-        type: 'value',
-        boundaryGap: [0, '100%']
-      },
-      dataZoom: [{
-        type: 'inside',
-        start: 0,
-        end: 10
-      }, {
-        start: 0,
-        end: 10,
-        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-        handleSize: '80%',
-        handleStyle: {
-          color: '#fff',
-          shadowBlur: 3,
-          shadowColor: 'rgba(0, 0, 0, 0.6)',
-          shadowOffsetX: 2,
-          shadowOffsetY: 2
-        }
-      }],
-      series: [
-        {
-          name: '访问数',
-          type: 'bar',
-          smooth: true,
-          symbol: 'none',
-          sampling: 'average',
-          itemStyle: {
-              color: 'rgb(123, 176, 126)'
-          },
-          data: data
-        }
-      ]
+      }
+      return log
     })
   }
 
@@ -201,10 +134,6 @@ class App {
         }
       }
     })
-  }
-
-  listen (formSettings, callback) {
-
   }
 }
 

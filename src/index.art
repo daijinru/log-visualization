@@ -1,4 +1,6 @@
 <div id="log-visual-comp">
-  <% include('./components/LineChart.art') %>
-  <% include('./components/LogConsole.art', $data.logs) %>
+  {{if $data.options.useChart}}
+    <% include('./components/LineChart.art') %>
+  {{/if}}
+  <% include('./components/LogConsole.art', $data.options) %>
 </div>
