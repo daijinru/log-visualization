@@ -4,7 +4,7 @@ import LogContextArt from './components/LogContextPop.art';
 import LogConsoleListArt from './components/LogConsoleList.art';
 import './styles/index.scss';
 import { findParentElement } from './utils/index';
-import setChart from './libs/chart';
+// import setChart from './libs/chart';
 import pkg from '../package.json';
 
 // @TODO 修改 Art 模版以支持高亮功能，暂时使用 loader options 关闭 escape 但是有 XSS 风险
@@ -57,7 +57,8 @@ class App {
     this.setEvents();
     // 默认关闭柱状图
     if (this.options.useChart) {
-      setChart(this.logs);
+      throw new Error('暂无集成 Echart');
+      // setChart(this.logs);
     }
   }
 
