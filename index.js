@@ -9,3 +9,6 @@ app.setState({
   logs: dataSource.result[0].values,
   stream: dataSource.result[0].stream,
 })
+app.onFilter(function (pubs) {
+  console.info(pubs);
+});

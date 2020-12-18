@@ -5,6 +5,7 @@ import LogConsoleListArt from './components/LogConsoleList.art';
 import './styles/index.scss';
 import { findParentElement } from './utils/index';
 import setChart from './libs/chart';
+import pkg from '../package.json';
 
 const defaults = {
   useChart: false,
@@ -18,12 +19,15 @@ class App {
     if (!this.app) throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     this.logs = [];
     this.stream = [];
+    this.events = new Map();
     this.options = { ...defaults, ...options };
     // 初始化阶段先渲染日志界面
     this.app.innerHTML = IndexArt({
       options: this.options
     });
     window.LogVisualComp = this;
+    this.version = pkg.version;
+    this.author = pkg.author;
   }
 
   // 异步请求取回的新日志数据调用该方法
@@ -41,6 +45,28 @@ class App {
     if (this.options.useChart) {
       setChart(this.logs);
     }
+  }
+
+  // 注册监听 filter 按钮的事件
+  onFilter (cbs) {
+    this.registerEvents('filter', cbs);
+  }
+
+  registerEvents (eventType, cbs) {
+    let events;
+    if (!this.events.get(eventType)) {
+      events = [];
+      this.events.set(eventType, events);
+    }
+    events = this.events.get(eventType);
+    const errText = 'Filter 要求所有回调都是 Function 类型';
+    if (Array.isArray(cbs)) {
+      if (cbs.some(cb => typeof cb !== 'function')) throw new TypeError(errText);
+      events = events.concat(cbs);
+      return;
+    }
+    if (typeof cbs !== 'function') throw new TypeError(errText);
+    events.push(cbs);
   }
 
   renderState (options = {}) {
@@ -145,6 +171,26 @@ class App {
             prevCtxElement.style.top = (0 - prevCtxElement.offsetHeight) + 'px';
 
           }
+        }
+      }
+
+      if (e.target.getAttribute('data-action') === 'filter') {
+        console.info(e.target);
+        const parentElement = findParentElement(e.target, 'log-console-btn');
+        const filterDesc = parentElement.getAttribute('data-desc');
+        if (filterDesc) {
+          // 从这里使用 - 分离 filterDesc
+          // 所有事件类型的结构是 eventType - action - value
+          // 例如 filter 这里是 filter - for | out - value
+          const pubs = filterDesc.split('-');
+          const cbs = this.events.get('filter');
+          cbs.forEach(cb => {
+            cb({
+              type: pubs[0],
+              action: pubs[1],
+              value: pubs[2],
+            });
+          })
         }
       }
     })
