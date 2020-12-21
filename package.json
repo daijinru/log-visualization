@@ -37,9 +37,6 @@
   "dependencies": {
     "dayjs": "^1.9.7"
   },
-  "peerDependencies": {
-    "echarts": "^5.0.0"
-  },
   "files": [
     "dist"
   ]
