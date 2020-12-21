@@ -128,7 +128,7 @@ class App {
       };
       item.content[0] = log[0];
       item.content[1] = log[1];
-      const tsFormatString = dayjs(log[0]).format('YYYY-MM-DD hh:mm:ss.ms');
+      const tsFormatString = dayjs(log[0] / 1000000).format('YYYY-MM-DD hh:mm:ss.ms');
       if (options.useTimestamp) {
         item.content[1] = tsFormatString + ' ' + log[1];
       }
@@ -146,6 +146,11 @@ class App {
   }
 
   setEvents () {
+    const logVisualApp = document.getElementById('log-visual-app');
+    if (!logVisualApp) {
+      console.warn('logVisualApp 挂载点不存在！请尽量在 DOM 挂载完毕后执行实例方法 setState() ');
+      return;
+    }
     document.getElementById('log-visual-app').addEventListener('click', e => {
       // 单条日志点击事件和动效
       if (e.target.classList.contains('log-console-item-msg-text')) {

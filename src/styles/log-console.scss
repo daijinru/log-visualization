@@ -30,6 +30,9 @@
 
     .log-console-item {
       position: relative;
+      &:hover {
+        background: rgb(247, 248, 250);
+      }
       &:after {
         content: "";
         display: block;
@@ -56,7 +59,7 @@
         display: block;
       }
       .log-console-item-msg-text {
-        line-height: 19px;
+        line-height: 20px;
         white-space: nowrap;
         &.text-wrap {
           white-space: inherit;
