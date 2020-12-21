@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import IndexArt from './index.art';
 import LogContextArt from './components/LogContextPop.art';
 import LogConsoleListArt from './components/LogConsoleList.art';
+import LogConsoleLoadingArt from './components/Loading.art';
 import './styles/index.scss';
 import { findParentElement } from './utils/index';
 import pkg from '../package.json';
@@ -87,26 +88,34 @@ class App {
   }
 
   renderState (options = {}) {
-    this.options = { ...this.options, ...options };
-    const logConsoleListElement = document.getElementById('logConsoleList');
-    if (!logConsoleListElement) throw new ReferenceError('日志挂载的节点不存在！');
-    logConsoleListElement.innerHTML = LogConsoleListArt({
-      logs: this.formatLogs(),
-      stream: this.stream,
-    });
+    this.setLoading(true);
+    setTimeout(() => {
+      this.options = { ...this.options, ...options };
+      const logConsoleListElement = document.getElementById('logConsoleList');
+      if (!logConsoleListElement) throw new ReferenceError('日志挂载的节点不存在！');
+      logConsoleListElement.innerHTML = LogConsoleListArt({
+        logs: this.formatLogs(),
+        stream: this.stream,
+      });
 
-    // 换行涉及 DOM 操作需要在渲染结束后执行
-    this.logRenderWithWrapLines(this.options.useWrapLines);
+      // 换行涉及 DOM 操作需要在渲染结束后执行
+      this.logRenderWithWrapLines(this.options.useWrapLines);
+      setTimeout(() => {
+        this.setLoading(false);
+      }, 300);
+    }, 300);
   }
 
   logRenderWithWrapLines (actionStatus) {
+    // this.setLoading(true);
     Array.from(document.getElementsByClassName('log-console-item-msg-text')).forEach(item => {
       if (actionStatus) {
         item.classList.add('text-wrap');
       } else {
         item.classList.remove('text-wrap');
       }
-    })
+    });
+    // this.setLoading(false);
   }
 
 
@@ -240,20 +249,40 @@ class App {
         const actionStatus = e.target.checked;
         switch (buildInAction) {
           case 'timestamp':
+            this.setLoading(true);
             this.renderState({ useTimestamp: actionStatus });
+            setTimeout(() => {
+              this.setLoading(false);
+            }, 300);
             break;
           case 'unique-label':
-            this.renderState({ useUniqueLabel: actionStatus });
+            // 暂时不提供该功能
+            // this.renderState({ useUniqueLabel: actionStatus });
             break;
           case 'wrap-lines':
+            this.setLoading(true);
             this.options = { ...this.options, ...{ useWrapLines: actionStatus } };
             // 换行仅涉及 className 修改因此性能较高
             this.logRenderWithWrapLines(actionStatus);
+            setTimeout(() => {
+              this.setLoading(false);
+            }, 300);
             break;
         }
-        console.info(buildInAction, actionStatus);
       }
     })
+  }
+
+  setLoading (bool) {
+    const logConsoleLoading = document.getElementById('logConsoleLoading');
+    if (!logConsoleLoading) throw ReferenceError('logConsoleLoading 节点不存在，请实例化以后调用该方法');
+    if (bool) {
+      const top = document.documentElement.scrollTop + (window.innerHeight / 2) + 'px';
+      const left = window.innerWidth / 2 + 'px';
+      logConsoleLoading.innerHTML = LogConsoleLoadingArt({ style: `top: ${top}; left: ${left};` });
+    } else {
+      logConsoleLoading.innerHTML = '';
+    }
   }
 }
 

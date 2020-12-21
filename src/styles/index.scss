@@ -1,8 +1,10 @@
 @import './log-console.scss';
 @import './log-filter.scss';
 @import './log-context.scss';
+@import './log-loading.scss';
 
 #log-visual-comp {
+  position: relative;
   background-color: #fff;
   width: 100%;
   min-width: 420px;
@@ -12,7 +14,7 @@
   box-sizing: border-box;
   * {
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: 13px;
     font-family: Roboto, 'Helvetica Neue', Arial, 'sans-serif';
     color: #464c54;
   }
