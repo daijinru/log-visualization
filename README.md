@@ -11,7 +11,7 @@ $ npm i log-visual-comp@0.0.2
 
 使用示例：
 ```Javascript
-import App from './src/index.js';
+import App from 'log-visual-comp';
 
 const app = new App('log-visual-app', {
   useTimestamp: true, // 显示时间戳
