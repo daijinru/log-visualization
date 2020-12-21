@@ -71,6 +71,13 @@ class App {
     this.registerEvents('filter', cbs);
   }
 
+  regRenderContext (cb) {
+    if (typeof cb !== 'function') {
+      throw new TypeError('传入回调必须是函数类型');
+    }
+    this.registerEvents('context', cb);
+  }
+
   registerEvents (eventType, cbs) {
     let events;
     if (!this.events.get(eventType)) {
@@ -123,6 +130,47 @@ class App {
     // this.setLoading(false);
   }
 
+  renderLogContext (target) {
+    return (prevs, nexts) => {
+      if (!Array.isArray(prevs) || !Array.isArray(nexts)) {
+        throw new TypeError('prevs 和 nexts 都必须是二维数组类型，例如 [[Timestamp, Log]]');
+      }
+      // 清除所有已存在的上下文弹框
+      // 还原所有展开上下文按钮的文案
+      Array.from(document.getElementsByClassName('log-console-msg-context')).forEach(node => node.remove());
+      Array.from(document.getElementsByClassName('log-console-item-msg-context')).forEach(node => {
+        node.innerText = '展开上下文';
+        node.classList.remove('collapsed');
+      });
+      const parentElement = findParentElement(target, 'log-console-item');
+      if (parentElement) {
+        const LogContextTemplateString = LogContextArt({
+          prevs,
+          nexts,
+          prevsCount: prevs.length,
+          nextsCount: nexts.length,
+        });
+        const DIV = document.createElement('div');
+        DIV.classList.add('log-console-msg-context');
+        DIV.innerHTML = LogContextTemplateString;
+        parentElement.prepend(DIV);
+        target.classList.add('collapsed');
+        target.innerText = '收起上下文';
+        // 调整上下文的上半部分位置
+        const prevCtxElement = document.getElementsByClassName('log-context-prevs')[0];
+        if (prevCtxElement) {
+          prevCtxElement.style.top = (0 - prevCtxElement.offsetHeight) + 'px';
+        }
+        const nextCtxElement = document.getElementsByClassName('log-context-nexts')[0];
+        if (nextCtxElement) {
+          nextCtxElement.style.top = target.parentElement.offsetHeight + 'px';
+        }
+      }
+      setTimeout(() => {
+        this.setLoading(false);
+      }, 300);
+    }
+  }
 
   formatLogs () {
     const options = this.options;
@@ -188,51 +236,12 @@ class App {
           e.target.innerText = '展开上下文';
           return;
         }
-        // 清除所有已存在的上下文弹框
-        // 还原所有展开上下文按钮的文案
-        Array.from(document.getElementsByClassName('log-console-msg-context')).forEach(node => node.remove());
-        Array.from(document.getElementsByClassName('log-console-item-msg-context')).forEach(node => {
-          node.innerText = '展开上下文';
-          node.classList.remove('collapsed');
+        this.setLoading(true);
+        const renderFn = this.renderLogContext(e.target);
+        const cbs = this.events.get('context');
+        cbs.forEach(cb => {
+          cb(renderFn);
         });
-        const parentElement = findParentElement(e.target, 'log-console-item');
-        if (parentElement) {
-          // 从 key 开始往前和往后各获取 10 条日志
-          const key = Number(e.target.getAttribute('data-key'));
-          const prevs = [];
-          const nexts = [];
-          for (let i = 1; i <= 10; i++) {
-            const nextLog = this.logs[key + i];
-            const prevLog = this.logs[key - (11 - i)];
-            if (nextLog) {
-              nexts.push(nextLog);
-            }
-            if (prevLog) {
-              prevs.push(prevLog)
-            }
-          }
-          const LogContextTemplateString = LogContextArt({
-            prevs,
-            nexts,
-            prevsCount: prevs.length,
-            nextsCount: nexts.length,
-          });
-          const DIV = document.createElement('div');
-          DIV.classList.add('log-console-msg-context');
-          DIV.innerHTML = LogContextTemplateString;
-          parentElement.prepend(DIV);
-          e.target.classList.add('collapsed');
-          e.target.innerText = '收起上下文';
-          // 调整上下文的上半部分位置
-          const prevCtxElement = document.getElementsByClassName('log-context-prevs')[0];
-          if (prevCtxElement) {
-            prevCtxElement.style.top = (0 - prevCtxElement.offsetHeight) + 'px';
-          }
-          const nextCtxElement = document.getElementsByClassName('log-context-nexts')[0];
-          if (nextCtxElement) {
-            nextCtxElement.style.top = e.target.parentElement.offsetHeight + 'px';
-          }
-        }
       }
 
       if (e.target.getAttribute('data-action') === 'filter') {

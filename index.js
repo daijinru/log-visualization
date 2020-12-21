@@ -1,11 +1,12 @@
 import App from './src/index.js';
-import mockData from './mock.data';
+import mockData from './mock/mock.data';
+import mockContextData from './mock/mock.data.context';
 
 const app = new App('log-visual-app', {
   useTimestamp: true,
   useWrapLines: false,
   useContext: true,
-  search: '2052475',
+  // search: '2052475',
 });
 const dataSource = mockData.response.data;
 app.setState({
@@ -15,4 +16,10 @@ app.setState({
 app.onFilter(function (pubs) {
   console.info(pubs);
 });
-// app.search('SqlSession');
+app.regRenderContext(function (render) {
+  // 模拟请求上下文
+  setTimeout(() => {
+    render(mockContextData.prevs, mockContextData.nexts);
+  }, 2000);
+});
+// app.search('2052475');

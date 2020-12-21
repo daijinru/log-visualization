@@ -32,6 +32,16 @@ app.setState({
 // 监听筛选事件
 app.onFilter(function (pubs) {
   console.info(pubs);
+  // 通常筛选结束后会再次请求数据并重新 setState()
+});
+
+// 注册上下文渲染回调
+// 需要实例化时打开 useContext: true
+app.regRenderContext(function (render) {
+  // 模拟请求上下文
+  setTimeout(() => {
+    render(mockContextData.prevs, mockContextData.nexts);
+  }, 2000);
 });
 
 // 搜索并高亮结果
