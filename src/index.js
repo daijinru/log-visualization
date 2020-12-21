@@ -92,7 +92,10 @@ class App {
     setTimeout(() => {
       this.options = { ...this.options, ...options };
       const logConsoleListElement = document.getElementById('logConsoleList');
-      if (!logConsoleListElement) throw new ReferenceError('日志挂载的节点不存在！');
+      if (!logConsoleListElement) {
+        console.error('日志列表的挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 渲染完毕后执行 setState() 操作');
+        return;
+      }
       logConsoleListElement.innerHTML = LogConsoleListArt({
         logs: this.formatLogs(),
         stream: this.stream,
@@ -148,7 +151,7 @@ class App {
   setEvents () {
     const logVisualApp = document.getElementById('log-visual-app');
     if (!logVisualApp) {
-      console.warn('logVisualApp 挂载点不存在！请尽量在 DOM 挂载完毕后执行实例方法 setState() ');
+      console.warn('实例的 logVisualApp 挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 挂载完毕后执行实例方法 setState() ');
       return;
     }
     document.getElementById('log-visual-app').addEventListener('click', e => {

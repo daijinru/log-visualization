@@ -3,7 +3,7 @@ import mockData from './mock.data';
 
 const app = new App('log-visual-app', {
   useTimestamp: true,
-  useWrapLines: true,
+  useWrapLines: false,
   search: '2052475',
 });
 const dataSource = mockData.response.data;
