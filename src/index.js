@@ -220,7 +220,7 @@ class App {
           }
           const nextCtxElement = document.getElementsByClassName('log-context-nexts')[0];
           if (nextCtxElement) {
-            nextCtxElement.style.top = parentElement.offsetHeight + 'px';
+            nextCtxElement.style.top = e.target.parentElement.offsetHeight + 'px';
           }
         }
       }
