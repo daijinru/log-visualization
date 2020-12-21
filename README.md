@@ -31,6 +31,9 @@ app.setState({
 app.onFilter(function (pubs) {
   console.info(pubs);
 });
+
+// 搜索并高亮结果
+app.search('some str');
 ```
 
 ## 开发指南
