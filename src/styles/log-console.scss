@@ -8,7 +8,6 @@
     }
 
     .log-console-list {
-      min-width: 960px;
       min-height: 250px;
     }
 
@@ -50,6 +49,7 @@
         }
       }
       .log-console-item-msg-arrow {
+        margin: 0 4px 0 7px;
         display: none;
       }
       .log-console-item-msg-arrow.collapsed {

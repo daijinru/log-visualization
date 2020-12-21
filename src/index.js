@@ -21,7 +21,7 @@ import pkg from '../package.json';
 
 const defaults = {
   useTimestamp: false,
-  useUniqueLabel: false,
+  // useUniqueLabel: false,
   useWrapLines: false,
   search: '',
 }
@@ -37,7 +37,7 @@ class App {
     this.app.innerHTML = IndexArt({
       options: this.options
     });
-    window.LogVisualComp = this;
+    window._LogVisualComp_ = this;
     this.version = pkg.version;
     this.author = pkg.author;
   }
@@ -94,7 +94,21 @@ class App {
       logs: this.formatLogs(),
       stream: this.stream,
     });
+
+    // 换行涉及 DOM 操作需要在渲染结束后执行
+    this.logRenderWithWrapLines(this.options.useWrapLines);
   }
+
+  logRenderWithWrapLines (actionStatus) {
+    Array.from(document.getElementsByClassName('log-console-item-msg-text')).forEach(item => {
+      if (actionStatus) {
+        item.classList.add('text-wrap');
+      } else {
+        item.classList.remove('text-wrap');
+      }
+    })
+  }
+
 
   formatLogs () {
     const options = this.options;
@@ -125,7 +139,7 @@ class App {
   setEvents () {
     document.getElementById('log-visual-app').addEventListener('click', e => {
       // 单条日志点击事件和动效
-      if (e.target.className === 'log-console-item-msg-text') {
+      if (e.target.classList.contains('log-console-item-msg-text')) {
         // 日志详情展开
         const nextElementSibling = e.target.parentElement.nextElementSibling;
         if (nextElementSibling && nextElementSibling.classList.contains('collapsed')) {
@@ -194,7 +208,10 @@ class App {
           const prevCtxElement = document.getElementsByClassName('log-context-prevs')[0];
           if (prevCtxElement) {
             prevCtxElement.style.top = (0 - prevCtxElement.offsetHeight) + 'px';
-
+          }
+          const nextCtxElement = document.getElementsByClassName('log-context-nexts')[0];
+          if (nextCtxElement) {
+            nextCtxElement.style.top = parentElement.offsetHeight + 'px';
           }
         }
       }
@@ -229,15 +246,9 @@ class App {
             this.renderState({ useUniqueLabel: actionStatus });
             break;
           case 'wrap-lines':
+            this.options = { ...this.options, ...{ useWrapLines: actionStatus } };
             // 换行仅涉及 className 修改因此性能较高
-            this.renderState({ useWrapLines: actionStatus });
-            Array.from(document.getElementsByClassName('log-console-item-msg-text')).forEach(item => {
-              if (actionStatus) {
-                item.classList.add('text-wrap');
-              } else {
-                item.classList.remove('text-wrap');
-              }
-            })
+            this.logRenderWithWrapLines(actionStatus);
             break;
         }
         console.info(buildInAction, actionStatus);

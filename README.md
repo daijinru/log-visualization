@@ -13,10 +13,11 @@ $ npm i log-visual-comp@0.0.2
 ```Javascript
 import App from 'log-visual-comp';
 
+// 实例化和默认配置
+// 当日志渲染后可到上方操作区修改配置，并且该配置将保留到下一批数据，除非重新实例化
 const app = new App('log-visual-app', {
   useTimestamp: true, // 显示时间戳
-  // useUniqueLabel: false, // 使用唯一标识
-  // useWrapLines: false, // 当容器宽度小于日志宽度时日志会自动换行显示
+  useWrapLines: true, // 当容器宽度小于日志宽度时日志会自动换行显示
   search: '2052475',
 });
 
