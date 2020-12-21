@@ -18,6 +18,7 @@ import App from 'log-visual-comp';
 const app = new App('log-visual-app', {
   useTimestamp: true, // 显示时间戳
   useWrapLines: true, // 当容器宽度小于日志宽度时日志会自动换行显示
+  useContext: true, // 打开查看每条日志上下文的按钮
   search: '2052475',
 });
 

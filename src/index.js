@@ -24,6 +24,7 @@ const defaults = {
   useTimestamp: false,
   // useUniqueLabel: false,
   useWrapLines: false,
+  useContext: false,
   search: '',
 }
 class App {
@@ -99,6 +100,7 @@ class App {
       logConsoleListElement.innerHTML = LogConsoleListArt({
         logs: this.formatLogs(),
         stream: this.stream,
+        options: this.options,
       });
 
       // 换行涉及 DOM 操作需要在渲染结束后执行

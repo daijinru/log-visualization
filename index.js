@@ -4,6 +4,7 @@ import mockData from './mock.data';
 const app = new App('log-visual-app', {
   useTimestamp: true,
   useWrapLines: false,
+  useContext: true,
   search: '2052475',
 });
 const dataSource = mockData.response.data;
