@@ -47,6 +47,13 @@ app.setState(
   ]
 )
 
+// 在回调事件中添加 loading 效果
+app.setLoading(true);
+http.req(data => {
+  app.setState(data);
+  app.setLoading(false);
+})
+
 // 监听筛选事件
 app.onFilter(function (pubs) {
   console.info(pubs);

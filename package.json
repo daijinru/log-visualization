@@ -1,6 +1,6 @@
 {
   "name": "log-visual-comp",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "author": "daijinru <daijr@ziroom.com>",
   "main": "dist/bundle.js",

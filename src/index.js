@@ -277,7 +277,7 @@ class App {
           // 从这里使用 - 分离 filterDesc
           // 所有事件类型的结构是 eventType - action - value
           // 例如 filter 这里是 filter - for | out - value
-          const pubs = filterDesc.split('-');
+          const pubs = filterDesc.split('$$');
           const cbs = this.events.get('filter');
           if (!cbs) return;
           cbs.forEach(cb => {
