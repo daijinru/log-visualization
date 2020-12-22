@@ -58,6 +58,7 @@ app.onFilter(function (pubs) {
 app.regRenderContext(function (render) {
   // 模拟请求上下文
   setTimeout(() => {
+    // prevs 和 nexts 分别是二维数组类型的 log: [Timestamp, Text]
     render(mockContextData.prevs, mockContextData.nexts);
   }, 2000);
 });
