@@ -33,6 +33,7 @@ class App {
     if (!this.app) throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     this.logs = [];
     this.events = new Map();
+    this.history = [];
     this.options = { ...defaults, ...options };
     // 初始化阶段先渲染日志界面
     this.app.innerHTML = IndexArt({
@@ -229,12 +230,12 @@ class App {
   }
 
   setEvents () {
-    const logVisualComp = document.getElementById('log-visual-comp');
-    if (!logVisualComp) {
-      console.warn('实例的 logVisualComp 挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 挂载完毕后执行实例方法 setState() ');
-      return;
-    }
-    logVisualComp.addEventListener('click', e => {
+    this.app.addEventListener('click', e => {
+      this.history.push({
+        event: 'click',
+        source: e.target,
+        data: null,
+      })
       // 单条日志点击事件和动效
       if (e.target.classList.contains('log-console-item-msg-text')) {
         // 日志详情展开
@@ -298,11 +299,7 @@ class App {
         const actionStatus = e.target.checked;
         switch (buildInAction) {
           case 'timestamp':
-            this.setLoading(true);
             this.renderState({ useTimestamp: actionStatus });
-            setTimeout(() => {
-              this.setLoading(false);
-            }, 300);
             break;
           case 'unique-label':
             // 暂时不提供该功能
