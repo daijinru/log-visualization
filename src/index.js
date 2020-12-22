@@ -229,12 +229,12 @@ class App {
   }
 
   setEvents () {
-    const logVisualApp = document.getElementById('log-visual-app');
-    if (!logVisualApp) {
-      console.warn('实例的 logVisualApp 挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 挂载完毕后执行实例方法 setState() ');
+    const logVisualComp = document.getElementById('log-visual-comp');
+    if (!logVisualComp) {
+      console.warn('实例的 logVisualComp 挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 挂载完毕后执行实例方法 setState() ');
       return;
     }
-    document.getElementById('log-visual-app').addEventListener('click', e => {
+    logVisualComp.addEventListener('click', e => {
       // 单条日志点击事件和动效
       if (e.target.classList.contains('log-console-item-msg-text')) {
         // 日志详情展开
