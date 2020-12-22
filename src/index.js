@@ -127,25 +127,19 @@ class App {
   }
 
   renderState (options = {}) {
-    this.setLoading(true);
-    setTimeout(() => {
-      this.options = { ...this.options, ...options };
-      const logConsoleListElement = document.getElementById('logConsoleList');
-      if (!logConsoleListElement) {
-        console.error('日志列表的挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 渲染完毕后执行 setState() 操作');
-        return;
-      }
-      logConsoleListElement.innerHTML = LogConsoleListArt({
-        logs: this.formatLogs(),
-        options: this.options,
-      });
+    this.options = { ...this.options, ...options };
+    const logConsoleListElement = document.getElementById('logConsoleList');
+    if (!logConsoleListElement) {
+      console.error('日志列表的挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 渲染完毕后执行 setState() 操作');
+      return;
+    }
+    logConsoleListElement.innerHTML = LogConsoleListArt({
+      logs: this.formatLogs(),
+      options: this.options,
+    });
 
-      // 换行涉及 DOM 操作需要在渲染结束后执行
-      this.logRenderWithWrapLines(this.options.useWrapLines);
-      setTimeout(() => {
-        this.setLoading(false);
-      }, 300);
-    }, 300);
+    // 换行涉及 DOM 操作需要在渲染结束后执行
+    this.logRenderWithWrapLines(this.options.useWrapLines);
   }
 
   logRenderWithWrapLines (actionStatus) {
@@ -270,6 +264,7 @@ class App {
         this.setLoading(true);
         const renderFn = this.renderLogContext(e.target);
         const cbs = this.events.get('context');
+        if (!cbs) return;
         cbs.forEach(cb => {
           cb(renderFn);
         });
@@ -284,11 +279,13 @@ class App {
           // 例如 filter 这里是 filter - for | out - value
           const pubs = filterDesc.split('-');
           const cbs = this.events.get('filter');
+          if (!cbs) return;
           cbs.forEach(cb => {
             cb({
               type: pubs[0],
               action: pubs[1],
-              value: pubs[2],
+              key: pubs[2],
+              value: pubs[3],
             });
           })
         }
@@ -299,7 +296,11 @@ class App {
         const actionStatus = e.target.checked;
         switch (buildInAction) {
           case 'timestamp':
-            this.renderState({ useTimestamp: actionStatus });
+            this.setLoading(true);
+            setTimeout(() => {
+              this.renderState({ useTimestamp: actionStatus });
+              this.setLoading(false);
+            }, 300)
             break;
           case 'unique-label':
             // 暂时不提供该功能

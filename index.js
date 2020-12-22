@@ -11,22 +11,26 @@ const app = new App('log-visual-app', {
 const dataSource = mockData.response.data;
 
 // 数组类型
-app.setState(
-  [
-    {
-      logs: dataSource.result[0].values.slice(0, 100),
-      stream: dataSource.result[0].stream,
-    },
-    {
-      logs: dataSource.result[0].values.slice(101, 200),
-      stream: dataSource.result[0].stream,
-    },
-    {
-      logs: dataSource.result[0].values.slice(201, 300),
-      stream: dataSource.result[0].stream,
-    },
-  ]
-)
+app.setLoading(true);
+setTimeout(() => {
+  app.setState(
+    [
+      {
+        logs: dataSource.result[0].values.slice(0, 100),
+        stream: dataSource.result[0].stream,
+      },
+      {
+        logs: dataSource.result[0].values.slice(101, 200),
+        stream: dataSource.result[0].stream,
+      },
+      {
+        logs: dataSource.result[0].values.slice(201, 300),
+        stream: dataSource.result[0].stream,
+      },
+    ]
+  );
+  app.setLoading(false);
+}, 500)
 
 // 对象类型
 // app.setState(

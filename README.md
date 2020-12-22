@@ -6,7 +6,7 @@
 
 安装：
 ```Bash
-$ npm i log-visual-comp@0.0.2
+$ npm i log-visual-comp
 ```
 
 使用示例：
