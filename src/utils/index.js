@@ -10,3 +10,8 @@ export function findParentElement (node, parentClassName) {
   }
   return parentElement;
 }
+
+export function isObject (value) {
+  const type = typeof value
+  return value != null && (type === 'object' || type === 'function')
+}

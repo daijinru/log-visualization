@@ -9,10 +9,32 @@ const app = new App('log-visual-app', {
   // search: '2052475',
 });
 const dataSource = mockData.response.data;
-app.setState({
-  logs: dataSource.result[0].values,
-  stream: dataSource.result[0].stream,
-})
+
+// 数组类型
+app.setState(
+  [
+    {
+      logs: dataSource.result[0].values.slice(0, 100),
+      stream: dataSource.result[0].stream,
+    },
+    {
+      logs: dataSource.result[0].values.slice(101, 200),
+      stream: dataSource.result[0].stream,
+    },
+    {
+      logs: dataSource.result[0].values.slice(201, 300),
+      stream: dataSource.result[0].stream,
+    },
+  ]
+)
+
+// 对象类型
+// app.setState(
+//   {
+//     logs: dataSource.result[0].values,
+//     stream: dataSource.result[0].stream,
+//   },
+// )
 app.onFilter(function (pubs) {
   console.info(pubs);
 });

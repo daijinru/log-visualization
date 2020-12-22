@@ -29,6 +29,24 @@ app.setState({
   stream,
 })
 
+// 并且也支持多个输入源的数组，logs 将被合并并且正序排序
+app.setState(
+  [
+    {
+      logs,
+      stream,
+    },
+    {
+      logs,
+      stream,
+    },
+    {
+      logs,
+      stream,
+    },
+  ]
+)
+
 // 监听筛选事件
 app.onFilter(function (pubs) {
   console.info(pubs);

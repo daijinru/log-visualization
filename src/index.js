@@ -4,7 +4,7 @@ import LogContextArt from './components/LogContextPop.art';
 import LogConsoleListArt from './components/LogConsoleList.art';
 import LogConsoleLoadingArt from './components/Loading.art';
 import './styles/index.scss';
-import { findParentElement } from './utils/index';
+import { findParentElement, isObject } from './utils/index';
 import pkg from '../package.json';
 
 // @TODO 修改 Art 模版以支持高亮功能，暂时使用 loader options 关闭 escape 但是有 XSS 风险
@@ -32,7 +32,6 @@ class App {
     this.app = document.getElementById(id);
     if (!this.app) throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     this.logs = [];
-    this.stream = [];
     this.events = new Map();
     this.options = { ...defaults, ...options };
     // 初始化阶段先渲染日志界面
@@ -46,13 +45,44 @@ class App {
 
   // 异步请求取回的新日志数据调用该方法
   setState(data) {
-    if (!Array.isArray(data.logs)) {
-      throw new TypeError('日志 logs 必须是二维数组类型：[["时间戳", "日志文本"]]');
+    // 当数据来源是多个，也就是 data 是 { logs, stream }[] 类型
+    let logs = [];
+    if (Array.isArray(data)) {
+      const validateTypeError = data.some(item => {
+        return !Array.isArray(item.logs) || !isObject(item.stream);
+      });
+      if (validateTypeError) {
+         throw new TypeError(
+           '传入数组的每个元素都必须是 {logs, stream} 类型 \n 而 logs 必须是二维数组类型 [[时间戳，日志文本]] \n stream 是对象类型'
+         )
+      }
+      // 先让每一个 item 的 stream 推入 logs 二维数组每一项
+      data.forEach(item => {
+        item.logs.forEach(log => {
+          log.push(item.stream);
+        });
+      });
+      // 将 data 每一个元素中的 logs 整合到一个数组
+      logs = data.reduce((acc, curr) => {
+        return acc.concat(curr.logs);
+      }, []);
+      // 根据 logs（二维数组）元素中的第一项，时间戳正序操作
+      logs.sort((a, b) => {
+        return a[0] - b[0];
+      });
+      this.logs = [].concat(logs);
+    } else {
+      if (!Array.isArray(data.logs) || !isObject(data.stream)) {
+        throw new TypeError(
+          '日志 logs 必须是二维数组类型：[["时间戳", "日志文本"]] \n stream 是对象类型'
+        );
+      }
+      data.logs.forEach(log => {
+        log.push(data.stream)
+      });
+      this.logs = [].concat(data.logs);
     }
-    this.logs = [].concat(data.logs);
-    if (data.stream) {
-      this.stream = Object.entries(data.stream).map(([k, v]) => [k, v]);
-    }
+
     this.renderState();
     this.setEvents();
     // 默认关闭柱状图
@@ -106,7 +136,6 @@ class App {
       }
       logConsoleListElement.innerHTML = LogConsoleListArt({
         logs: this.formatLogs(),
-        stream: this.stream,
         options: this.options,
       });
 
@@ -177,7 +206,8 @@ class App {
     return this.logs.map(log => {
       const item = {
         content: [],
-        parsedField: []
+        parsedField: [],
+        streams: Object.entries(log[2]).map(([k, v]) => [k, v]),
       };
       item.content[0] = log[0];
       item.content[1] = log[1];
