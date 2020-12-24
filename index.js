@@ -33,19 +33,25 @@ setTimeout(() => {
 }, 500)
 
 // 对象类型
-// app.setState(
-//   {
-//     logs: dataSource.result[0].values,
-//     stream: dataSource.result[0].stream,
-//   },
-// )
+// setTimeout(() => {
+//   console.info('第二次渲染');
+//   app.setState(
+//     {
+//       logs: dataSource.result[0].values,
+//       stream: dataSource.result[0].stream,
+//     },
+//   )
+// }, 5000);
+
 app.onFilter(function (pubs) {
   console.info(pubs);
 });
 app.regRenderContext(function (render) {
   // 模拟请求上下文
+  app.setLoading(true);
   setTimeout(() => {
     render(mockContextData.prevs, mockContextData.nexts);
+    app.setLoading(false);
   }, 2000);
 });
 // app.search('2052475');

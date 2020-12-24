@@ -64,9 +64,11 @@ app.onFilter(function (pubs) {
 // 需要实例化时打开 useContext: true
 app.regRenderContext(function (render) {
   // 模拟请求上下文
+  app.setLoading(true);
   setTimeout(() => {
     // prevs 和 nexts 分别是二维数组类型的 log: [Timestamp, Text]
     render(mockContextData.prevs, mockContextData.nexts);
+    app.setLoading(false);
   }, 2000);
 });
 

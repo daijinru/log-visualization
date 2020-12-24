@@ -35,6 +35,11 @@ class App {
     this.events = new Map();
     this.history = [];
     this.options = { ...defaults, ...options };
+
+    // 用于记录 setState 渲染次数
+    // 用于判定是否要再次绑定事件等逻辑处理
+    this.setStateCount = 0;
+
     // 初始化阶段先渲染日志界面
     this.app.innerHTML = IndexArt({
       options: this.options
@@ -85,10 +90,13 @@ class App {
     }
 
     this.renderState();
-    this.setEvents();
+    if (this.setStateCount < 1) {
+      this.setEvents();
+    }
+    this.setStateCount++;
     // 默认关闭柱状图
     if (this.options.useChart) {
-      throw new Error('Echart 已移除');
+      console.warn('Chart 图表已废弃，请从设置中移除 useChart 选项');
     }
   }
 
@@ -130,7 +138,7 @@ class App {
     this.options = { ...this.options, ...options };
     const logConsoleListElement = document.getElementById('logConsoleList');
     if (!logConsoleListElement) {
-      console.error('日志列表的挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 渲染完毕后执行 setState() 操作');
+      console.warn('日志列表的挂载节点不存在：该问题不影响运作，但是请尽量在 DOM 渲染完毕后执行 setState() 操作');
       return;
     }
     logConsoleListElement.innerHTML = LogConsoleListArt({
@@ -143,7 +151,6 @@ class App {
   }
 
   logRenderWithWrapLines (actionStatus) {
-    // this.setLoading(true);
     Array.from(document.getElementsByClassName('log-console-item-msg-text')).forEach(item => {
       if (actionStatus) {
         item.classList.add('text-wrap');
@@ -151,7 +158,6 @@ class App {
         item.classList.remove('text-wrap');
       }
     });
-    // this.setLoading(false);
   }
 
   renderLogContext (target) {
@@ -190,9 +196,6 @@ class App {
           nextCtxElement.style.top = target.parentElement.offsetHeight + 'px';
         }
       }
-      setTimeout(() => {
-        this.setLoading(false);
-      }, 300);
     }
   }
 
@@ -261,7 +264,6 @@ class App {
           e.target.innerText = '展开上下文';
           return;
         }
-        this.setLoading(true);
         const renderFn = this.renderLogContext(e.target);
         const cbs = this.events.get('context');
         if (!cbs) return;
