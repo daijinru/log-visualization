@@ -62,7 +62,8 @@ app.onFilter(function (pubs) {
 
 // 注册上下文渲染回调
 // 需要实例化时打开 useContext: true
-app.regRenderContext(function (render) {
+// log 和 stream 分别来自传入的 log 对象和 stream 对象
+app.regRenderContext(function (render, { log, stream }) {
   // 模拟请求上下文
   app.setLoading(true);
   setTimeout(() => {

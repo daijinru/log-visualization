@@ -36,10 +36,6 @@ class App {
     this.history = [];
     this.options = { ...defaults, ...options };
 
-    // 用于记录 setState 渲染次数
-    // 用于判定是否要再次绑定事件等逻辑处理
-    this.setStateCount = 0;
-
     // 初始化阶段先渲染日志界面
     this.app.innerHTML = IndexArt({
       options: this.options
@@ -90,10 +86,7 @@ class App {
     }
 
     this.renderState();
-    if (this.setStateCount < 1) {
-      this.setEvents();
-    }
-    this.setStateCount++;
+    this.bindEvents();
     // 默认关闭柱状图
     if (this.options.useChart) {
       console.warn('Chart 图表已废弃，请从设置中移除 useChart 选项');
@@ -226,8 +219,8 @@ class App {
     })
   }
 
-  setEvents () {
-    this.app.addEventListener('click', e => {
+  bindEvents () {
+    const eventDelegation = (e) => {
       this.history.push({
         event: 'click',
         source: e.target,
@@ -265,10 +258,12 @@ class App {
           return;
         }
         const renderFn = this.renderLogContext(e.target);
+        const log = this.logs[Number(e.target.getAttribute('data-key'))];
         const cbs = this.events.get('context');
         if (!cbs) return;
         cbs.forEach(cb => {
-          cb(renderFn);
+          // log[0] 和 log[1] 是原始 log 对象，而 log[2] 来自 stream 对象
+          cb(renderFn, { log: [log[0], log[1]], stream: log[2] });
         });
       }
 
@@ -319,7 +314,8 @@ class App {
             break;
         }
       }
-    })
+    }
+    this.app.onclick = eventDelegation;
   }
 
   setLoading (bool) {

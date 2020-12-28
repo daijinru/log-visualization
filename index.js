@@ -43,13 +43,24 @@ setTimeout(() => {
 //   )
 // }, 5000);
 
+// setTimeout(() => {
+//   console.info('第三次渲染');
+//   app.setState(
+//     {
+//       logs: dataSource.result[0].values,
+//       stream: dataSource.result[0].stream,
+//     },
+//   )
+// }, 10000);
+
 app.onFilter(function (pubs) {
   console.info(pubs);
 });
-app.regRenderContext(function (render) {
+app.regRenderContext(function (render, { log, stream }) {
   // 模拟请求上下文
   app.setLoading(true);
   setTimeout(() => {
+    console.info(log, stream);
     render(mockContextData.prevs, mockContextData.nexts);
     app.setLoading(false);
   }, 2000);
