@@ -19,7 +19,8 @@ const app = new App('log-visual-app', {
   useTimestamp: true, // 显示时间戳
   useWrapLines: true, // 当容器宽度小于日志宽度时日志会自动换行显示
   useContext: true, // 打开查看每条日志上下文的按钮
-  search: '2052475',
+  search: '2052475', // 实例化时高亮搜索结果
+  maxHeight: 600, // 当日志列表容器高度超过 600 时出现滚动条
 });
 
 // 传入 Logs 数据

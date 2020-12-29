@@ -2,5 +2,5 @@
   <div id="logConsoleLoading">
   </div>
   <% include('./LogFilter.art', $data) %>
-  <section class="log-console-scroll" id="logConsoleList" />
+  <section class="log-console-scroll" id="logConsoleList" style="max-height: {{$data.maxHeight}}px" />
 </section>

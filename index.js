@@ -6,6 +6,7 @@ const app = new App('log-visual-app', {
   useTimestamp: true,
   useWrapLines: false,
   useContext: true,
+  maxHeight: 600,
   // search: '2052475',
 });
 const dataSource = mockData.response.data;
@@ -33,15 +34,15 @@ setTimeout(() => {
 }, 500)
 
 // 对象类型
-// setTimeout(() => {
-//   console.info('第二次渲染');
-//   app.setState(
-//     {
-//       logs: dataSource.result[0].values,
-//       stream: dataSource.result[0].stream,
-//     },
-//   )
-// }, 5000);
+setTimeout(() => {
+  console.info('第二次渲染');
+  app.setState(
+    {
+      logs: dataSource.result[0].values,
+      stream: dataSource.result[0].stream,
+    },
+  )
+}, 5000);
 
 // setTimeout(() => {
 //   console.info('第三次渲染');

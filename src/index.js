@@ -26,6 +26,7 @@ const defaults = {
   useWrapLines: false,
   useContext: false,
   search: '',
+  maxHeight: 500,
 }
 class App {
   constructor (id, options = {}) {
