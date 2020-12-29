@@ -5,6 +5,7 @@ const Webpack = require('webpack');
 const commonConfig = require('./common');
 const logger = require('./logger');
 const util = require('./util');
+const portfinder = require('portfinder');
 
 const devServerConfig = {
   port: 8001,
@@ -40,13 +41,17 @@ compiler.hooks.done.tap('compiled', stats => {
   }
 });
 
-new WebpackDevServer(compiler, {
-  contentBase: util.resolvePath('../dist'),
-  open: true,
-  hot: true,
-}).listen(devServerConfig.port, devServerConfig.host, err => {
-  if (err) {
-    console.log();
-    logger.error(err);
-  }
+portfinder.basePort = devServerConfig.port;
+portfinder.getPort(function (err, port) {
+  if (err) throw err;
+  new WebpackDevServer(compiler, {
+    contentBase: util.resolvePath('../dist'),
+    open: true,
+    hot: true,
+  }).listen(port, devServerConfig.host, err => {
+    if (err) {
+      console.log();
+      logger.error(err);
+    }
+  })
 })
