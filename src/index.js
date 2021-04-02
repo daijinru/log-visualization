@@ -154,6 +154,14 @@ class App {
     });
   }
 
+  hideRenderedLogContext () {
+    Array.from(document.getElementsByClassName('log-console-msg-context')).forEach(node => node.remove());
+    Array.from(document.getElementsByClassName('log-console-item-msg-context')).forEach(node => {
+      node.innerText = '展开上下文';
+      node.classList.remove('collapsed');
+    });
+  }
+
   renderLogContext (target) {
     return (prevs, nexts) => {
       if (!Array.isArray(prevs) || !Array.isArray(nexts)) {
@@ -161,11 +169,7 @@ class App {
       }
       // 清除所有已存在的上下文弹框
       // 还原所有展开上下文按钮的文案
-      Array.from(document.getElementsByClassName('log-console-msg-context')).forEach(node => node.remove());
-      Array.from(document.getElementsByClassName('log-console-item-msg-context')).forEach(node => {
-        node.innerText = '展开上下文';
-        node.classList.remove('collapsed');
-      });
+      this.hideRenderedLogContext();
       const parentElement = findParentElement(target, 'log-console-item');
       if (parentElement) {
         const LogContextTemplateString = LogContextArt({
@@ -191,9 +195,13 @@ class App {
         }
         const nextCtxElement = document.getElementsByClassName('log-context-nexts')[0];
         if (nextCtxElement) {
-          nextCtxElement.style.top = parentElementAbsPoi.top + parentElementAbsPoi.height + 'px';
+          nextCtxElement.style.top = parentElementAbsPoi.top + 20 + 'px';
           nextCtxElement.style.left = parentElementAbsPoi.left + 'px';
           nextCtxElement.style.width = logConsoleList.offsetWidth + 'px';
+        }
+        document.getElementsByClassName('log-console-msg-context')[0].onclick = function (e) {
+          // 阻止冒泡即避免触发绑定到全局 Document 的事件
+          e.stopPropagation();
         }
       }
     }
@@ -227,12 +235,14 @@ class App {
   }
 
   bindEvents () {
+    // 全局点击，用于关闭上下文弹窗（
+    const _this = this;
+    document.onclick = function () {
+      _this.hideRenderedLogContext();
+    }
+
+    // 全局委托事件
     const eventDelegation = (e) => {
-      this.history.push({
-        event: 'click',
-        source: e.target,
-        data: null,
-      })
       // 单条日志点击事件和动效
       if (e.target.classList.contains('log-console-item-msg-text')) {
         // 日志详情展开
@@ -264,6 +274,7 @@ class App {
           e.target.innerText = '展开上下文';
           return;
         }
+
         const renderFn = this.renderLogContext(e.target);
         const log = this.logs[Number(e.target.getAttribute('data-key'))];
         const cbs = this.events.get('context');
