@@ -36,6 +36,10 @@ class App {
     this.events = new Map();
     this.history = [];
     this.options = { ...defaults, ...options };
+    // 暂存展开上下文时生成的渲染函数，当使用点击加载更多这样的功能时可以持续使用
+    this.renderContextFn = null;
+    // 暂存展开上下文时的日志
+    this.renderContextLog = null;
 
     // 初始化阶段先渲染日志界面
     this.app.innerHTML = IndexArt({
@@ -243,6 +247,7 @@ class App {
 
     // 全局委托事件
     const eventDelegation = (e) => {
+      console.info(e.target.classList);
       // 单条日志点击事件和动效
       if (e.target.classList.contains('log-console-item-msg-text')) {
         // 日志详情展开
@@ -269,15 +274,15 @@ class App {
       // 单条日志的展开上下文操作
       if (e.target.classList.contains('log-console-item-msg-context')) {
         if (e.target.classList.contains('collapsed')) {
-          Array.from(document.getElementsByClassName('log-console-msg-context')).forEach(node => node.remove());
-          e.target.classList.remove('collapsed');
-          e.target.innerText = '展开上下文';
+          this.hideRenderedLogContext();
           return;
         }
 
         const renderFn = this.renderLogContext(e.target);
         const log = this.logs[Number(e.target.getAttribute('data-key'))];
         const cbs = this.events.get('context');
+        this.renderContextFn = renderFn;
+        this.renderContextLog = log;
         if (!cbs) return;
         cbs.forEach(cb => {
           // log[0] 和 log[1] 是原始 log 对象，而 log[2] 来自 stream 对象
@@ -331,6 +336,16 @@ class App {
             }, 300);
             break;
         }
+      }
+
+      if (e.target.classList.contains('more-context-prev') || e.target.classList.contains('more-context-next')) {
+        const cbs = this.events.get('context');
+        if (!cbs) return;
+        console.info(cbs, this.renderContextFn, this.renderContextLog);
+        cbs.forEach(cb => {
+          // log[0] 和 log[1] 是原始 log 对象，而 log[2] 来自 stream 对象
+          cb(this.renderContextFn, { log: [this.renderContextLog[0], this.renderContextLog[1]], stream: this.renderContextLog[2] });
+        });
       }
     }
     this.app.onclick = eventDelegation;

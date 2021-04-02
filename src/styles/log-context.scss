@@ -24,6 +24,13 @@
       box-shadow: rgb(221, 228, 237) 0px 2px 4px, rgb(221, 228, 237) 0px 0px 2px;
       border: 1px solid rgb(221, 228, 237);
       border-radius: 3px;
+      .more-context-next,
+      .more-context-prev {
+        cursor: pointer;
+        &:hover {
+          color: rgb(0, 89, 156);
+        }
+      }
     }
     .log-context-nexts {
       top: 19px;
