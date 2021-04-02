@@ -64,6 +64,6 @@ app.regRenderContext(function (render, { log, stream }) {
     console.info(log, stream);
     render(mockContextData.prevs, mockContextData.nexts);
     app.setLoading(false);
-  }, 2000);
+  }, 1000);
 });
 // app.search('2052475');

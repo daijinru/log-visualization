@@ -16,12 +16,9 @@
     }
     .log-context-prevs,
     .log-context-nexts {
-      position: absolute;
-      z-index: 2;
-      left: 15px;
+      position: fixed;
+      z-index: 99;
       overflow: hidden;
-
-      width: calc(100% - 15px);
       max-height: 300px;
       background: linear-gradient(rgb(255, 255, 255) 0%, rgb(247, 248, 250) 104.25%);
       box-shadow: rgb(221, 228, 237) 0px 2px 4px, rgb(221, 228, 237) 0px 0px 2px;

@@ -4,7 +4,7 @@ import LogContextArt from './components/LogContextPop.art';
 import LogConsoleListArt from './components/LogConsoleList.art';
 import LogConsoleLoadingArt from './components/Loading.art';
 import './styles/index.scss';
-import { findParentElement, isObject } from './utils/index';
+import { findParentElement, isObject, getAbsolutePoi } from './utils/index';
 import pkg from '../package.json';
 
 // @TODO 修改 Art 模版以支持高亮功能，暂时使用 loader options 关闭 escape 但是有 XSS 风险
@@ -181,13 +181,19 @@ class App {
         target.classList.add('collapsed');
         target.innerText = '收起上下文';
         // 调整上下文的上半部分位置
+        const logConsoleList = document.getElementById('logConsoleList');
+        const parentElementAbsPoi = getAbsolutePoi(parentElement);
         const prevCtxElement = document.getElementsByClassName('log-context-prevs')[0];
         if (prevCtxElement) {
-          prevCtxElement.style.top = (0 - prevCtxElement.offsetHeight) + 'px';
+          prevCtxElement.style.top = parentElementAbsPoi.top - prevCtxElement.offsetHeight + 'px';
+          prevCtxElement.style.left = parentElementAbsPoi.left + 'px';
+          prevCtxElement.style.width = logConsoleList.offsetWidth + 'px';
         }
         const nextCtxElement = document.getElementsByClassName('log-context-nexts')[0];
         if (nextCtxElement) {
-          nextCtxElement.style.top = target.parentElement.offsetHeight + 'px';
+          nextCtxElement.style.top = parentElementAbsPoi.top + parentElementAbsPoi.height + 'px';
+          nextCtxElement.style.left = parentElementAbsPoi.left + 'px';
+          nextCtxElement.style.width = logConsoleList.offsetWidth + 'px';
         }
       }
     }
