@@ -80,7 +80,7 @@ const devConfig = merge(commonConfig, {
     })
   ],
   mode: 'development',
-  devtool: 'cheap-source-map'
+  devtool: 'eval-cheap-module-source-map',
 })
 
 const compiler = Webpack(devConfig);
