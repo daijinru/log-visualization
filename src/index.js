@@ -34,7 +34,6 @@ class App {
     if (!this.app) throw new ReferenceError(`id 名为 ${id} 的节点不存在`);
     this.logs = [];
     this.events = new Map();
-    this.history = [];
     this.options = { ...defaults, ...options };
     // 暂存展开上下文时生成的渲染函数，当使用点击加载更多这样的功能时可以持续使用
     this.renderContextFn = null;
@@ -113,6 +112,13 @@ class App {
       throw new TypeError('传入回调必须是函数类型');
     }
     this.registerEvents('context', cb);
+  }
+
+  regRenderMoreContext (cb) {
+    if (typeof cb !== 'function') {
+      throw new TypeError('传入回调必须是函数类型');
+    }
+    this.registerEvents('contextMore', cb);
   }
 
   registerEvents (eventType, cbs) {
@@ -203,9 +209,16 @@ class App {
           nextCtxElement.style.left = parentElementAbsPoi.left + 'px';
           nextCtxElement.style.width = logConsoleList.offsetWidth + 'px';
         }
-        document.getElementsByClassName('log-console-msg-context')[0].onclick = function (e) {
+        document.getElementsByClassName('log-console-msg-context')[0].onclick = e => {
           // 阻止冒泡即避免触发绑定到全局 Document 的事件
           e.stopPropagation();
+          if (e.target.classList.contains('more-context-prev') || e.target.classList.contains('more-context-next')) {
+            const cbs = this.events.get('contextMore');
+            if (!cbs) return;
+            cbs.forEach(cb => {
+              cb(this.renderContextFn);
+            })
+          }
         }
       }
     }
@@ -247,7 +260,6 @@ class App {
 
     // 全局委托事件
     const eventDelegation = (e) => {
-      console.info(e.target.classList);
       // 单条日志点击事件和动效
       if (e.target.classList.contains('log-console-item-msg-text')) {
         // 日志详情展开

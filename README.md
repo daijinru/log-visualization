@@ -73,6 +73,16 @@ app.regRenderContext(function (render, { log, stream }) {
     app.setLoading(false);
   }, 2000);
 });
+// 上下文弹窗中点击加载更多日志
+app.regRenderMoreContext(function (render) {
+  app.setLoading(true);
+  setTimeout(() => {
+    // 以下仅是一个示例
+    // 通过修改当前上下文日志列表（直接添加到原来的上下文日志列表）并传入执行 render 函数
+    render([...mockContextData.prevs, ...mockContextData.nexts], mockContextData.nexts);
+    app.setLoading(false);
+  }, 1000);
+});
 
 // 搜索并高亮结果
 app.search('some str');
