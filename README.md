@@ -73,9 +73,11 @@ app.regRenderContext(function (render, { log, stream }) {
     app.setLoading(false);
   }, 2000);
 });
-// 上下文弹窗中点击加载更多日志
+
+// #20210407新增：上下文弹窗中点击加载更多日志
 app.regRenderMoreContext(function (render) {
   app.setLoading(true);
+  // 模拟请求上下文
   setTimeout(() => {
     // 以下仅是一个示例
     // 通过修改当前上下文日志列表（直接添加到原来的上下文日志列表）并传入执行 render 函数
