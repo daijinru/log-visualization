@@ -200,13 +200,13 @@ class App {
         const prevCtxElement = document.getElementsByClassName('log-context-prevs')[0];
         if (prevCtxElement) {
           prevCtxElement.style.top = parentElementAbsPoi.top - prevCtxElement.offsetHeight + 'px';
-          prevCtxElement.style.left = parentElementAbsPoi.left + 'px';
+          prevCtxElement.style.left = logConsoleList.left + 20 + 'px';
           prevCtxElement.style.width = logConsoleList.offsetWidth + 'px';
         }
         const nextCtxElement = document.getElementsByClassName('log-context-nexts')[0];
         if (nextCtxElement) {
           nextCtxElement.style.top = parentElementAbsPoi.top + 20 + 'px';
-          nextCtxElement.style.left = parentElementAbsPoi.left + 'px';
+          nextCtxElement.style.left = logConsoleList.left + 20 + 'px';
           nextCtxElement.style.width = logConsoleList.offsetWidth + 'px';
         }
         document.getElementsByClassName('log-console-msg-context')[0].onclick = e => {
